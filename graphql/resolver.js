@@ -60,6 +60,8 @@ module.exports = {
           err.errors.forEach(
             (error) => (errors[error.path] = `${error.path} is already taken`)
           )
+        } else if (err.name === 'SequelizeValidationError') {
+          err.errors.forEach((error) => (errors[error.path] = error.message))
         }
         throw new UserInputError('Bad input', { errors })
       }
