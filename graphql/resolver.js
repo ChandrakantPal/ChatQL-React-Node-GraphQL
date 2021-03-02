@@ -1,4 +1,7 @@
+const bcrypt = require('bcryptjs')
+
 const { User } = require('../models')
+
 module.exports = {
   Query: {
     getUsers: async () => {
@@ -20,12 +23,13 @@ module.exports = {
         // check if username / email exist
 
         // Hash password
+        const hashedPassword = await bcrypt.hash(password, 6)
 
         // create user
         const user = await User.create({
           username,
           email,
-          password,
+          password: hashedPassword,
         })
 
         // return user
