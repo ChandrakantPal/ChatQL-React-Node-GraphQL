@@ -12,7 +12,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
   value,
 }) => {
   return (
-    <div className="mb-2">
+    <div className="mb-3">
       <input
         type={type}
         className="p-3 transition duration-200 border border-gray-300 rounded-full outline-none bg-gray-50 focus:bg-white hover:bg-white focus:border-blue-500"
