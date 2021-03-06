@@ -43,7 +43,7 @@ function App() {
             />
             <button
               type="submit"
-              className="w-full px-4 py-2 my-3 text-xs font-bold text-white uppercase bg-blue-500 border border-blue-500 rounded-full"
+              className="w-full px-4 py-2 my-3 text-sm font-bold text-white uppercase bg-blue-500 border border-blue-500 rounded-full"
             >
               Register
             </button>
