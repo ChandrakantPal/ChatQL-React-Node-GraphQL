@@ -13,7 +13,7 @@ const Register = () => {
       console.log(res)
     },
     onError(err) {
-      console.log(err)
+      console.log(err.graphQLErrors[0].extensions.errors)
     },
   })
 
