@@ -1,4 +1,5 @@
 import ApolloProvider from './ApolloProvider'
+
 import Register from './components/Register'
 
 function App() {
