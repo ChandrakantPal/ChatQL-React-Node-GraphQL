@@ -1,3 +1,4 @@
+import { gql, useMutation } from '@apollo/client'
 import { FormEvent, useState } from 'react'
 import InputGroup from './InputGroup'
 
@@ -7,8 +8,18 @@ const Register = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
+  const [registerUser, { loading }] = useMutation(REGISTER_USER, {
+    update(_, res) {
+      console.log(res)
+    },
+    onError(err) {
+      console.log(err)
+    },
+  })
+
   const submitHandler = (event: FormEvent) => {
     event.preventDefault()
+    registerUser({ variables: { username, email, password, confirmPassword } })
   }
 
   return (
@@ -55,3 +66,23 @@ const Register = () => {
 }
 
 export default Register
+
+const REGISTER_USER = gql`
+  mutation register(
+    $username: String!
+    $email: String!
+    $password: String!
+    $confirmPassword: String!
+  ) {
+    register(
+      username: $username
+      email: $email
+      password: $password
+      confirmPassword: $confirmPassword
+    ) {
+      username
+      email
+      createdAt
+    }
+  }
+`
