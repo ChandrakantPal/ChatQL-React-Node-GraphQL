@@ -1,6 +1,7 @@
 import { gql, useMutation } from '@apollo/client'
 import { FormEvent, useState } from 'react'
 import { useHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 import InputGroup from './InputGroup'
 
 const Register = () => {
@@ -66,6 +67,12 @@ const Register = () => {
           >
             {loading ? 'Registering...' : 'Register'}
           </button>
+          <small className="block text-center">
+            Already have an account?{' '}
+            <Link to="/login" className="text-blue-500 hover:underline">
+              Login
+            </Link>
+          </small>
         </form>
       </div>
     </div>
