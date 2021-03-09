@@ -7,6 +7,7 @@ const Register = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [errors, setErrors] = useState<any>({})
 
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
     update(_, res) {
@@ -14,6 +15,7 @@ const Register = () => {
     },
     onError(err) {
       console.log(err.graphQLErrors[0].extensions.errors)
+      setErrors(err.graphQLErrors[0].extensions.errors)
     },
   })
 
@@ -33,30 +35,35 @@ const Register = () => {
               type="email"
               value={email}
               setValue={setEmail}
+              error={errors.email}
             />
             <InputGroup
               placeholder="Username"
               type="text"
               value={username}
               setValue={setUsername}
+              error={errors.username}
             />
             <InputGroup
               placeholder="Password"
               type="password"
               value={password}
               setValue={setPassword}
+              error={errors.password}
             />
             <InputGroup
               placeholder="Confirm Password"
               type="password"
               value={confirmPassword}
               setValue={setConfirmPassword}
+              error={errors.confirmPassword}
             />
             <button
               type="submit"
               className="w-full px-4 py-2 my-3 text-sm font-bold text-white uppercase bg-blue-500 border border-blue-500 rounded-full"
+              disabled={loading}
             >
-              Register
+              {loading ? 'Registering...' : 'Register'}
             </button>
           </form>
         </div>
