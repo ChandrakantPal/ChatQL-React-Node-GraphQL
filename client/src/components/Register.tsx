@@ -1,5 +1,6 @@
 import { gql, useMutation } from '@apollo/client'
 import { FormEvent, useState } from 'react'
+import { useHistory } from 'react-router'
 import InputGroup from './InputGroup'
 
 const Register = () => {
@@ -8,10 +9,11 @@ const Register = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [errors, setErrors] = useState<any>({})
+  const history = useHistory()
 
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
-    update(_, res) {
-      console.log(res)
+    update(_, __) {
+      history.push('/login')
     },
     onError(err) {
       console.log(err.graphQLErrors[0].extensions.errors)
