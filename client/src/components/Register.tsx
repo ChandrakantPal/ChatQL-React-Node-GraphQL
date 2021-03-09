@@ -12,10 +12,10 @@ const Register = () => {
   const history = useHistory()
 
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
-    update(_, __) {
+    update: (_, __) => {
       history.push('/login')
     },
-    onError(err) {
+    onError: (err) => {
       console.log(err.graphQLErrors[0].extensions.errors)
       setErrors(err.graphQLErrors[0].extensions.errors)
     },
