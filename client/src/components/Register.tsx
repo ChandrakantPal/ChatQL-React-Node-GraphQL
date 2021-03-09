@@ -25,48 +25,46 @@ const Register = () => {
   }
 
   return (
-    <div className="container mx-auto">
-      <div className="w-full h-full">
-        <h1 className="mt-5 text-3xl text-center">Register</h1>
-        <div className="flex justify-center my-5 ">
-          <form onSubmit={submitHandler}>
-            <InputGroup
-              placeholder="Email"
-              type="email"
-              value={email}
-              setValue={setEmail}
-              error={errors.email}
-            />
-            <InputGroup
-              placeholder="Username"
-              type="text"
-              value={username}
-              setValue={setUsername}
-              error={errors.username}
-            />
-            <InputGroup
-              placeholder="Password"
-              type="password"
-              value={password}
-              setValue={setPassword}
-              error={errors.password}
-            />
-            <InputGroup
-              placeholder="Confirm Password"
-              type="password"
-              value={confirmPassword}
-              setValue={setConfirmPassword}
-              error={errors.confirmPassword}
-            />
-            <button
-              type="submit"
-              className="w-full px-4 py-2 my-3 text-sm font-bold text-white uppercase bg-blue-500 border border-blue-500 rounded-full"
-              disabled={loading}
-            >
-              {loading ? 'Registering...' : 'Register'}
-            </button>
-          </form>
-        </div>
+    <div className="w-full h-full">
+      <h1 className="mt-5 text-3xl text-center">Register</h1>
+      <div className="flex justify-center my-5 ">
+        <form onSubmit={submitHandler}>
+          <InputGroup
+            placeholder="Email"
+            type="email"
+            value={email}
+            setValue={setEmail}
+            error={errors.email}
+          />
+          <InputGroup
+            placeholder="Username"
+            type="text"
+            value={username}
+            setValue={setUsername}
+            error={errors.username}
+          />
+          <InputGroup
+            placeholder="Password"
+            type="password"
+            value={password}
+            setValue={setPassword}
+            error={errors.password}
+          />
+          <InputGroup
+            placeholder="Confirm Password"
+            type="password"
+            value={confirmPassword}
+            setValue={setConfirmPassword}
+            error={errors.confirmPassword}
+          />
+          <button
+            type="submit"
+            className="w-full px-4 py-2 my-3 text-sm font-bold text-white uppercase bg-blue-500 border border-blue-500 rounded-full"
+            disabled={loading}
+          >
+            {loading ? 'Registering...' : 'Register'}
+          </button>
+        </form>
       </div>
     </div>
   )
