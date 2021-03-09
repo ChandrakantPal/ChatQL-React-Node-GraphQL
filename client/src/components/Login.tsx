@@ -1,6 +1,7 @@
 import { gql, useLazyQuery } from '@apollo/client'
 import { FormEvent, useState } from 'react'
 import { useHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 import InputGroup from './InputGroup'
 
 const Login = () => {
@@ -48,6 +49,12 @@ const Login = () => {
           >
             {loading ? 'Loading...' : 'Login'}
           </button>
+          <small className="block text-center">
+            Don't have an account?{' '}
+            <Link to="/register" className="text-blue-500 hover:underline">
+              Register
+            </Link>
+          </small>
         </form>
       </div>
     </div>
