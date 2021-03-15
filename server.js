@@ -5,7 +5,7 @@ const { sequelize } = require('./models')
 // The GraphQL schema
 
 // A map of functions which return data for the schema.
-const resolvers = require('./graphql/resolver')
+const resolvers = require('./graphql/resolvers')
 const typeDefs = require('./graphql/typeDefs')
 const contextMiddleware = require('./util/contextMiddleware')
 
