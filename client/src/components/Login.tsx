@@ -2,6 +2,7 @@ import { gql, useLazyQuery } from '@apollo/client'
 import { FormEvent, useState } from 'react'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
+import { useAuthDispatch } from '../context/Auth'
 import InputGroup from './InputGroup'
 
 const Login = () => {
@@ -10,10 +11,12 @@ const Login = () => {
   const [errors, setErrors] = useState<any>({})
   const history = useHistory()
 
+  const dispatch = useAuthDispatch()
+
   const [loginUser, { loading }] = useLazyQuery(LOGIN_USER, {
     onError: (err) => setErrors(err.graphQLErrors[0].extensions.errors),
     onCompleted: (data) => {
-      localStorage.setItem('token', data.login.token)
+      dispatch('LOGIN', data.login)
       history.push('/')
     },
   })
