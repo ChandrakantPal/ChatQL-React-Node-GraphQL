@@ -12,13 +12,11 @@ function App() {
     <ApolloProvider>
       <AuthProvider>
         <BrowserRouter>
-          <div className="container mx-auto">
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/login" component={Login} />
-              <Route path="/register" component={Register} />
-            </Switch>
-          </div>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+          </Switch>
         </BrowserRouter>
       </AuthProvider>
     </ApolloProvider>
