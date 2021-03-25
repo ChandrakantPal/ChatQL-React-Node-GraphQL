@@ -50,10 +50,16 @@ module.exports = {
             errors,
           })
         }
-
-        const token = jwt.sign({ username }, JWT_SECRET, {
-          expiresIn: 60 * 60,
-        })
+        const token = jwt.sign(
+          {
+            username,
+            email: user.dataValues.email,
+          },
+          JWT_SECRET,
+          {
+            expiresIn: 60 * 60,
+          }
+        )
 
         return {
           ...user.toJSON(),
