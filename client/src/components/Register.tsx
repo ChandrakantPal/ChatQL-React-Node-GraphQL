@@ -1,7 +1,8 @@
 import { gql, useMutation } from '@apollo/client'
 import { FormEvent, useState } from 'react'
-import { useHistory } from 'react-router'
+import { Redirect, useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
+import { useAuthState } from '../context/Auth'
 import InputGroup from './InputGroup'
 
 const Register = () => {
@@ -10,6 +11,9 @@ const Register = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [errors, setErrors] = useState<any>({})
+
+  const { authenticated } = useAuthState()
+
   const history = useHistory()
 
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
@@ -26,6 +30,8 @@ const Register = () => {
     event.preventDefault()
     registerUser({ variables: { username, email, password, confirmPassword } })
   }
+
+  if (!authenticated) return <Redirect to="/" />
 
   return (
     <div className="w-full h-full">
