@@ -1,14 +1,17 @@
 import { gql, useLazyQuery } from '@apollo/client'
 import { FormEvent, useState } from 'react'
-import { useHistory } from 'react-router'
+import { Redirect, useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
-import { useAuthDispatch } from '../context/Auth'
+import { useAuthDispatch, useAuthState } from '../context/Auth'
 import InputGroup from './InputGroup'
 
 const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState<any>({})
+
+  const { authenticated } = useAuthState()
+
   const history = useHistory()
 
   const dispatch = useAuthDispatch()
@@ -25,6 +28,8 @@ const Login = () => {
     event.preventDefault()
     loginUser({ variables: { username, password } })
   }
+
+  if (authenticated) return <Redirect to="/" />
 
   return (
     <div className="w-full h-full">
