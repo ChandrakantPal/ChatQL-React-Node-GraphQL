@@ -31,7 +31,7 @@ const Register = () => {
     registerUser({ variables: { username, email, password, confirmPassword } })
   }
 
-  if (!authenticated) return <Redirect to="/" />
+  if (authenticated) return <Redirect to="/" />
 
   return (
     <div className="w-full h-full">
