@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer } from 'react'
+import { createContext, useContext, useReducer } from 'react'
 import jwt_decode, { JwtPayload } from 'jwt-decode'
 import { User } from '../types'
 
@@ -26,8 +26,6 @@ if (token) {
     initialState.user = decodedToken as User
     initialState.authenticated = true
   }
-  console.log({ decodedToken })
-  console.log({ expiresAt })
 } else console.log('no token found')
 
 const StateContext = createContext<State>({
