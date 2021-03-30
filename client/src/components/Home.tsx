@@ -21,8 +21,20 @@ const Home = () => {
     usersMarkup = <p>No users have joined yet</p>
   } else if (data.getUsers.length > 0) {
     usersMarkup = data.getUsers.map((user: User) => (
-      <div key={user.username}>
-        <p>{user.username}</p>
+      <div className="flex p-3" key={user.username}>
+        <img
+          src={user.imageUrl}
+          alt="user"
+          className="object-cover w-16 h-16 mr-2 rounded-full"
+        />
+        <div>
+          <p className="text-green-400">{user.username}</p>
+          <p className="font-light">
+            {user.latestMessage
+              ? user.latestMessage.content
+              : 'You are now connected!'}
+          </p>
+        </div>
       </div>
     ))
   }
@@ -49,8 +61,14 @@ const GET_USERS = gql`
   query getUsers {
     getUsers {
       username
-      email
       createdAt
+      imageUrl
+      latestMessage {
+        uuid
+        content
+        from
+        to
+      }
     }
   }
 `
