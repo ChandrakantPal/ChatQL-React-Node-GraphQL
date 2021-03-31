@@ -1,14 +1,30 @@
-import { gql, useQuery } from '@apollo/client'
-import React from 'react'
+import { gql, useLazyQuery, useQuery } from '@apollo/client'
+import { useEffect, useState } from 'react'
 import { Redirect } from 'react-router'
 import { useAuthState } from '../context/Auth'
 import Navbar from './Navbar'
-import { User } from '../types'
+import { User, Message } from '../types'
 
 const Home = () => {
+  const [selectedUser, setSelectedUser] = useState('')
   const { authenticated } = useAuthState()
 
   const { loading, data, error } = useQuery(GET_USERS)
+
+  const [
+    getMessages,
+    { loading: messagesLoading, data: messagesData },
+  ] = useLazyQuery(GET_MESSAGES)
+
+  useEffect(() => {
+    if (selectedUser) {
+      getMessages({ variables: { from: selectedUser } })
+    }
+  }, [getMessages, selectedUser])
+
+  if (messagesData) {
+    console.log({ messagesData })
+  }
 
   if (error) {
     console.log(error)
@@ -21,7 +37,11 @@ const Home = () => {
     usersMarkup = <p>No users have joined yet</p>
   } else if (data.getUsers.length > 0) {
     usersMarkup = data.getUsers.map((user: User) => (
-      <div className="flex p-3" key={user.username}>
+      <div
+        className="flex p-3"
+        key={user.username}
+        onClick={() => setSelectedUser(user.username)}
+      >
         <img
           src={user.imageUrl}
           alt="user"
@@ -45,9 +65,15 @@ const Home = () => {
       <Navbar />
       <div className="container mx-auto">
         <div className="grid grid-cols-3">
-          <div>{usersMarkup}</div>
+          <div className="bg-gray-100">{usersMarkup}</div>
           <div className="col-span-2">
-            <p>Messages</p>
+            {messagesData && messagesData.getMessages.length > 0 ? (
+              messagesData.getMessages.map((message: Message) => (
+                <p key={message.uuid}>{message.content}</p>
+              ))
+            ) : (
+              <p>You are now connected!</p>
+            )}
           </div>
         </div>
       </div>
@@ -69,6 +95,16 @@ const GET_USERS = gql`
         from
         to
       }
+    }
+  }
+`
+const GET_MESSAGES = gql`
+  query getMessages($from: String!) {
+    getMessages(from: $from) {
+      content
+      from
+      to
+      createdAt
     }
   }
 `
