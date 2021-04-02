@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
+import { useMessageDispatch, useMessageState } from '../context/Message'
 import { User } from '../types'
 
 interface UsersProps {
@@ -6,16 +7,21 @@ interface UsersProps {
 }
 
 const Users: React.FC<UsersProps> = ({ setSelectedUser }) => {
-  const { loading, data, error } = useQuery(GET_USERS)
+  const dispatch = useMessageDispatch()
+  const { users } = useMessageState()
+  const { loading } = useQuery(GET_USERS, {
+    onCompleted: (data) => dispatch('SET_USERS', data.getUsers),
+    onError: (err) => console.log(err),
+  })
   let usersMarkup
-  if (!data || loading) {
+  if (!users || loading) {
     usersMarkup = <p>Loading...</p>
-  } else if (data.getUsers.length === 0) {
+  } else if (users.length === 0) {
     usersMarkup = <p>No users have joined yet</p>
-  } else if (data.getUsers.length > 0) {
-    usersMarkup = data.getUsers.map((user: User) => (
+  } else if (users.length > 0) {
+    usersMarkup = users.map((user: User) => (
       <div
-        className="flex p-3"
+        className="flex p-3 cursor-pointer"
         key={user.username}
         onClick={() => setSelectedUser(user.username)}
       >
