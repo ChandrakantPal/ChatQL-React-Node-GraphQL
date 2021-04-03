@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
-import { classNames } from '@ungap/global-this'
+import classNames from 'classnames'
 import { useMessageDispatch, useMessageState } from '../context/Message'
 import { User } from '../types'
 
