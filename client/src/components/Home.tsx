@@ -32,7 +32,10 @@ const Home = () => {
       <Navbar />
       <div className="container mx-auto">
         <div className="grid grid-cols-3">
-          <Users setSelectedUser={setSelectedUser} />
+          <Users
+            setSelectedUser={setSelectedUser}
+            selectedUser={selectedUser}
+          />
           <div className="col-span-2">
             <Messages />
             {messagesData && messagesData.getMessages.length > 0 ? (
