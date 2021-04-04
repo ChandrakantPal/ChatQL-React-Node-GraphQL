@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Redirect } from 'react-router'
 import { useAuthState } from '../context/Auth'
 import Navbar from './Navbar'
