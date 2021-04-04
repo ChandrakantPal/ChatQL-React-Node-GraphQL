@@ -3,14 +3,9 @@ import classNames from 'classnames'
 import { useMessageDispatch, useMessageState } from '../context/Message'
 import { User } from '../types'
 
-interface UsersProps {
-  setSelectedUser: (user: string) => void
-  selectedUser: string
-}
-
-const Users: React.FC<UsersProps> = ({ setSelectedUser, selectedUser }) => {
+const Users = () => {
   const dispatch = useMessageDispatch()
-  const { users } = useMessageState()
+  const { users, selectedUser } = useMessageState()
   const { loading } = useQuery(GET_USERS, {
     onCompleted: (data) => dispatch('SET_USERS', data.getUsers),
     onError: (err) => console.log(err),
@@ -29,7 +24,7 @@ const Users: React.FC<UsersProps> = ({ setSelectedUser, selectedUser }) => {
             'bg-white': selected,
           })}
           key={user.username}
-          onClick={() => setSelectedUser(user.username)}
+          onClick={() => dispatch('SET_SELECTED_USER', user.username)}
         >
           <img
             src={user.imageUrl}
