@@ -6,7 +6,6 @@ import Users from './Users'
 import Messages from './Messages'
 
 const Home = () => {
-  const [selectedUser, setSelectedUser] = useState('')
   const { authenticated } = useAuthState()
 
   if (!authenticated) return <Redirect to="/login" />
