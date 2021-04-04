@@ -1,12 +1,10 @@
 import { gql, useLazyQuery } from '@apollo/client'
 import { useEffect } from 'react'
+import { useMessageState } from '../context/Message'
 import { Message } from '../types'
 
-interface MessagesProps {
-  selectedUser: string
-}
-
-const Messages: React.FC<MessagesProps> = ({ selectedUser }) => {
+const Messages = () => {
+  const { selectedUser } = useMessageState()
   const [
     getMessages,
     { loading: messagesLoading, data: messagesData },
