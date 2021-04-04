@@ -15,11 +15,8 @@ const Home = () => {
       <Navbar />
       <div className="container mx-auto">
         <div className="grid grid-cols-3">
-          <Users
-            setSelectedUser={setSelectedUser}
-            selectedUser={selectedUser}
-          />
-          <Messages selectedUser={selectedUser} />
+          <Users />
+          <Messages />
         </div>
       </div>
     </div>
