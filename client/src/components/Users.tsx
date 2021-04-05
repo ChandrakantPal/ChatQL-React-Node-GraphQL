@@ -1,6 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import classNames from 'classnames'
-import { useMessageDispatch, useMessageState } from '../context/Message'
+import { useMessageDispatch, useMessageState } from '../context/MessageContext'
 import { User } from '../types'
 
 const Users = () => {
