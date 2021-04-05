@@ -1,12 +1,11 @@
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuthDispatch } from '../context/Auth'
 
 const Navbar = () => {
   const dispatch = useAuthDispatch()
-  const history = useHistory()
   const logout = () => {
     dispatch('LOGOUT')
-    history.push('/login')
+    window.location.href = '/login'
   }
   return (
     <nav className="bg-gray-800">
