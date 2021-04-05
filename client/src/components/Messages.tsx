@@ -1,14 +1,14 @@
 import { gql, useLazyQuery } from '@apollo/client'
 import { useEffect } from 'react'
-import { useMessageState } from '../context/Message'
+import { useMessageDispatch, useMessageState } from '../context/Message'
 import { Message } from '../types'
 
 const Messages = () => {
-  const { selectedUser } = useMessageState()
-  const [
-    getMessages,
-    { loading: messagesLoading, data: messagesData },
-  ] = useLazyQuery(GET_MESSAGES)
+  const { selectedUser, messages } = useMessageState()
+  const dispatch = useMessageDispatch()
+  const [getMessages, { loading, data: messagesData }] = useLazyQuery(
+    GET_MESSAGES
+  )
 
   useEffect(() => {
     if (selectedUser) {
@@ -16,20 +16,30 @@ const Messages = () => {
     }
   }, [getMessages, selectedUser])
 
+  useEffect(() => {
+    if (messagesData) {
+      dispatch('SET_USER_MESSAGES', messagesData.getMessages)
+    }
+  }, [dispatch, messagesData])
+
   if (messagesData) {
     console.log({ messagesData })
   }
-  return (
-    <div className="col-span-2">
-      {messagesData && messagesData.getMessages.length > 0 ? (
-        messagesData.getMessages.map((message: Message) => (
-          <p key={message.uuid}>{message.content}</p>
-        ))
-      ) : (
-        <p>You are now connected!</p>
-      )}
-    </div>
-  )
+
+  let selectedChat
+  if (!messages && !loading) {
+    selectedChat = <p>Select a friend</p>
+  } else if (loading) {
+    selectedChat = <p>Loading...</p>
+  } else if (messages.length > 0) {
+    selectedChat = messages.map((message: Message) => (
+      <p key={message.uuid}>{message.content}</p>
+    ))
+  } else if (messages.length === 0) {
+    selectedChat = <p>You are now connected! send your first message!</p>
+  }
+
+  return <div className="col-span-2">{selectedChat}</div>
 }
 
 export default Messages
