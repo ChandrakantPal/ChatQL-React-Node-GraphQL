@@ -48,7 +48,7 @@ const Messages = () => {
   }
 
   return (
-    <div className="flex flex-col-reverse col-span-2 overflow-y-scroll h-96 no-scrollbar">
+    <div className="flex flex-col-reverse col-span-2 overflow-y-scroll h-160 no-scrollbar">
       {selectedChat}
     </div>
   )
