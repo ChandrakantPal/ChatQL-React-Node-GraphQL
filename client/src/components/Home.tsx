@@ -12,7 +12,7 @@ const Home = () => {
     <div className="w-full h-full">
       <Navbar />
       <div className="container mx-auto">
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-3 gap-1">
           <Users />
           <Messages />
         </div>
