@@ -1,5 +1,5 @@
 import { gql, useLazyQuery } from '@apollo/client'
-import { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
 import { useMessageDispatch, useMessageState } from '../context/MessageContext'
 import { Message } from '../types'
 import MessageBox from './Message'
@@ -15,17 +15,19 @@ const Messages = () => {
     if (selectedUser) {
       getMessages({ variables: { from: selectedUser } })
     }
-  }, [getMessages, selectedUser])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedUser])
 
   useEffect(() => {
     if (messagesData) {
       dispatch('SET_USER_MESSAGES', messagesData.getMessages)
     }
-  }, [dispatch, messagesData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messagesData])
 
-  if (messagesData) {
-    console.log({ messagesData })
-  }
+  // if (messagesData) {
+  //   console.log({ messagesData })
+  // }
 
   let selectedChat
   if (!messages && !loading) {
@@ -34,14 +36,14 @@ const Messages = () => {
     selectedChat = <p>Loading...</p>
   } else if (messages.length > 0) {
     selectedChat = messages.map((message: Message, index) => (
-      <>
-        <MessageBox message={message} key={message.uuid} />
+      <Fragment key={message.uuid}>
+        <MessageBox message={message} />
         {index === messages.length - 1 && (
           <div className="invisible">
             <hr className="m-0" />
           </div>
         )}
-      </>
+      </Fragment>
     ))
   } else if (messages.length === 0) {
     selectedChat = <p>You are now connected! send your first message!</p>
