@@ -44,7 +44,7 @@ const MessageBox: React.FC<MessageProp> = ({ message }) => {
         ref={toolTiplRef}
         className="hidden px-3 py-2 mx-1 text-sm text-gray-900 bg-gray-100 bg-opacity-50 rounded-lg shadow"
       >
-        {dayjs(message.createdAt).format('DD MMMM YYYY  H:m')}
+        {dayjs(message.createdAt).format('DD MMMM YYYY @  H:m')}
       </p>
     </div>
   )
