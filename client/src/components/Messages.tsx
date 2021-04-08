@@ -1,15 +1,24 @@
-import { gql, useLazyQuery } from '@apollo/client'
-import { Fragment, useEffect } from 'react'
+import { gql, useLazyQuery, useMutation } from '@apollo/client'
+import { FormEvent, Fragment, useEffect, useState } from 'react'
 import { useMessageDispatch, useMessageState } from '../context/MessageContext'
 import { Message } from '../types'
 import MessageBox from './Message'
 
 const Messages = () => {
+  const [content, setContent] = useState('')
   const { selectedUser, messages } = useMessageState()
   const dispatch = useMessageDispatch()
   const [getMessages, { loading, data: messagesData }] = useLazyQuery(
     GET_MESSAGES
   )
+
+  const [sendMessage] = useMutation(SEND_MESSAGE, {
+    onCompleted: (data) => {
+      dispatch('ADD_MESSAGE', data.sendMessage)
+      setContent('')
+    },
+    onError: (err) => console.log(err),
+  })
 
   useEffect(() => {
     if (selectedUser) {
@@ -29,11 +38,21 @@ const Messages = () => {
   //   console.log({ messagesData })
   // }
 
+  const submitHandler = (event: FormEvent) => {
+    event.preventDefault()
+    if (content === '' || selectedUser) return
+
+    // Mutation for sending message
+    sendMessage({ variables: { to: selectedUser, content } })
+  }
+
   let selectedChat
   if (!messages && !loading) {
-    selectedChat = <p>Select a friend</p>
+    selectedChat = (
+      <p className="mb-1 text-center text-gray-600">Select a friend</p>
+    )
   } else if (loading) {
-    selectedChat = <p>Loading...</p>
+    selectedChat = <p className="mb-1 text-center text-gray-600">Loading...</p>
   } else if (messages.length > 0) {
     selectedChat = messages.map((message: Message, index) => (
       <Fragment key={message.uuid}>
@@ -46,12 +65,27 @@ const Messages = () => {
       </Fragment>
     ))
   } else if (messages.length === 0) {
-    selectedChat = <p>You are now connected! send your first message!</p>
+    selectedChat = (
+      <p className="mb-1 text-center text-gray-600">
+        You are now connected! send your first message!
+      </p>
+    )
   }
 
   return (
-    <div className="flex flex-col-reverse col-span-2 overflow-y-scroll h-160 no-scrollbar">
-      {selectedChat}
+    <div className="col-span-2">
+      <div className="flex flex-col-reverse overflow-y-scroll no-scrollbar h-160">
+        {selectedChat}
+      </div>
+      <form onSubmit={submitHandler}>
+        <input
+          type="text"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          className="w-full p-4 placeholder-gray-600 bg-gray-100 rounded-full focus:outline-none"
+          placeholder="Type a message.."
+        />
+      </form>
     </div>
   )
 }
@@ -64,6 +98,17 @@ const GET_MESSAGES = gql`
       content
       from
       to
+      createdAt
+    }
+  }
+`
+const SEND_MESSAGE = gql`
+  mutation sendMessage($to: String!, $content: String!) {
+    sendMessage(to: $to, content: $content) {
+      uuid
+      from
+      to
+      content
       createdAt
     }
   }
