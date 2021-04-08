@@ -20,18 +20,21 @@ const Users = () => {
       const selected = selectedUser === user.username
       return (
         <div
-          className={classNames('flex p-3 cursor-pointer hover:bg-gray-200', {
-            'bg-white': selected,
-          })}
+          className={classNames(
+            'flex p-3 cursor-pointer justify-center md:justify-start hover:bg-gray-200',
+            {
+              'bg-white': selected,
+            }
+          )}
           key={user.username}
           onClick={() => dispatch('SET_SELECTED_USER', user.username)}
         >
           <img
             src={user.imageUrl}
             alt="user"
-            className="object-cover w-16 h-16 mr-2 rounded-full"
+            className="object-cover w-16 h-16 rounded-full"
           />
-          <div>
+          <div className="hidden ml-2 md:block">
             <p className="text-green-400">{user.username}</p>
             <p className="font-light">
               {user.latestMessage
