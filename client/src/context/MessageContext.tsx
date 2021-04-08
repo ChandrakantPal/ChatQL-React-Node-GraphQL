@@ -37,6 +37,13 @@ const messageReducer = (state: State, { type, payload }: Action) => {
         ...state,
         selectedUser: payload,
       }
+    case 'ADD_MESSAGE':
+      const messageUpdate = [...state.messages]
+      messageUpdate.unshift(payload)
+      return {
+        ...state,
+        messages: messageUpdate,
+      }
     default:
       throw new Error(`Unknow action type: ${type}`)
   }
