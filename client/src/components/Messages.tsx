@@ -40,7 +40,8 @@ const Messages = () => {
 
   const submitHandler = (event: FormEvent) => {
     event.preventDefault()
-    if (content === '' || selectedUser) return
+
+    if (content.trim() === '' || !selectedUser) return
 
     // Mutation for sending message
     sendMessage({ variables: { to: selectedUser, content } })
@@ -77,7 +78,7 @@ const Messages = () => {
       <div className="flex flex-col-reverse overflow-y-scroll no-scrollbar h-160">
         {selectedChat}
       </div>
-      <form onSubmit={submitHandler}>
+      <form className="flex items-center" onSubmit={submitHandler}>
         <input
           type="text"
           value={content}
@@ -85,6 +86,13 @@ const Messages = () => {
           className="w-full p-4 placeholder-gray-600 bg-gray-100 rounded-full focus:outline-none"
           placeholder="Type a message.."
         />
+        <button
+          type="submit"
+          className="ml-2 text-blue-500 outline-none focus:outline-none"
+          onClick={submitHandler}
+        >
+          <i className="fas fa-paper-plane fa-2x"></i>
+        </button>
       </form>
     </div>
   )
