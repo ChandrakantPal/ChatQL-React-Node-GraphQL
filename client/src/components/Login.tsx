@@ -1,6 +1,6 @@
 import { gql, useLazyQuery } from '@apollo/client'
 import { FormEvent, useState } from 'react'
-import { Redirect, useHistory } from 'react-router'
+import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom'
 import { useAuthDispatch, useAuthState } from '../context/Auth'
 import InputGroup from './InputGroup'
@@ -12,7 +12,7 @@ const Login = () => {
 
   const { authenticated } = useAuthState()
 
-  const history = useHistory()
+  // const history = useHistory()
 
   const dispatch = useAuthDispatch()
 
@@ -20,7 +20,7 @@ const Login = () => {
     onError: (err) => setErrors(err.graphQLErrors[0].extensions.errors),
     onCompleted: (data) => {
       dispatch('LOGIN', data.login)
-      history.push('/')
+      window.location.href = '/'
     },
   })
 
