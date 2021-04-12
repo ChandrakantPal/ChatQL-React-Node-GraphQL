@@ -14,7 +14,6 @@ const Messages = () => {
 
   const [sendMessage] = useMutation(SEND_MESSAGE, {
     onCompleted: (data) => {
-      dispatch('ADD_MESSAGE', data.sendMessage)
       setContent('')
     },
     onError: (err) => console.log(err),
