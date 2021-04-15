@@ -65,6 +65,13 @@ module.exports = {
         throw err
       }
     },
+    reactToMessage: async (_, { uuid, content }, { user }) => {
+      try {
+      } catch (err) {
+        console.log(err)
+        throw err
+      }
+    },
   },
   Subscription: {
     newMessage: {
