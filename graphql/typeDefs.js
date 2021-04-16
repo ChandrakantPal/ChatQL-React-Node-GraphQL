@@ -18,7 +18,7 @@ module.exports = gql`
   }
   type Reaction {
     uuid: String!
-    content: STRING!
+    content: String!
     createdAt: String!
     Message: Message!
     User: User!
