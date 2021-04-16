@@ -1,11 +1,12 @@
 const {
   UserInputError,
+  ForbiddenError,
   AuthenticationError,
   withFilter,
 } = require('apollo-server')
 const { Op } = require('sequelize')
 
-const { Message, User } = require('../../models')
+const { Message, User, Reaction } = require('../../models')
 
 module.exports = {
   Query: {
@@ -66,7 +67,43 @@ module.exports = {
       }
     },
     reactToMessage: async (_, { uuid, content }, { user }) => {
+      const reactions = ['❤️', '😆', '😯', '😢', '😡', '👍', '👎']
       try {
+        // Validate reaction content
+        if (!reactions.includes(content)) {
+          throw new UserInputError('Invalid reaction')
+        }
+
+        // Get user
+        const username = user ? user.username : ''
+        user = await User.findOne({ where: { username } })
+        if (!user) throw new AuthenticationError('Unauthenticated')
+
+        // Get message
+        const message = await Message.findOne({ where: { uuid } })
+        if (!message) throw new UserInputError('message not found')
+
+        if (message.from !== user.username && message.to !== user.username) {
+          throw new ForbiddenError('Unauthorized')
+        }
+
+        let reaction = await Reaction.findOne({
+          where: { messageId: message.id, userId: user.id },
+        })
+
+        if (reaction) {
+          // Reaction exists, update it
+          reaction.content = content
+          await reaction.save()
+        } else {
+          // Reaction doesnt exists, create it
+          reaction = await Reaction.create({
+            messageId: message.id,
+            userId: user.id,
+            content,
+          })
+        }
+        return reaction
       } catch (err) {
         console.log(err)
         throw err
