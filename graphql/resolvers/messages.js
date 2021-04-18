@@ -66,8 +66,10 @@ module.exports = {
         throw err
       }
     },
-    reactToMessage: async (_, { uuid, content }, { user }) => {
+
+    reactToMessage: async (_, { uuid, content }, { user, pubsub }) => {
       const reactions = ['❤️', '😆', '😯', '😢', '😡', '👍', '👎']
+
       try {
         // Validate reaction content
         if (!reactions.includes(content)) {
@@ -103,9 +105,11 @@ module.exports = {
             content,
           })
         }
+
+        pubsub.publish('NEW_REACTION', { newReaction: reaction })
+
         return reaction
       } catch (err) {
-        console.log(err)
         throw err
       }
     },
