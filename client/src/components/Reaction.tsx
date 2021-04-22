@@ -3,6 +3,11 @@ import { useState } from 'react'
 const Reaction = () => {
   const [showPopup, setShowPopup] = useState(false)
 
+  const react = (reaction: string) => {
+    setShowPopup(false)
+  }
+
+  const reactions = ['❤️', '😆', '😯', '😢', '😡', '👍', '👎']
   return (
     <>
       <button
@@ -12,9 +17,17 @@ const Reaction = () => {
         <i className="far fa-smile"></i>
       </button>
       {showPopup && (
-        <p className="px-3 py-2 mx-1 text-sm text-gray-900 bg-gray-100 bg-opacity-50 rounded-lg shadow">
-          Reaction
-        </p>
+        <div className="px-3 py-2 mx-1 text-sm text-gray-900 bg-gray-100 bg-opacity-50 rounded-lg shadow">
+          {reactions.map((reaction) => (
+            <button
+              className="mr-1 outline-none focus:outline-none"
+              key={reaction}
+              onClick={() => react(reaction)}
+            >
+              {reaction}
+            </button>
+          ))}
+        </div>
       )}
     </>
   )
