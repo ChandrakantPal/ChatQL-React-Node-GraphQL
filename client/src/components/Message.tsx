@@ -41,7 +41,7 @@ const MessageBox: React.FC<MessageProp> = ({ message }) => {
       >
         <p className={classNames({ 'text-white': sent })}>{message.content}</p>
       </div>
-      <Reaction />
+      <Reaction uuid={message.uuid} />
       <p
         ref={toolTiplRef}
         className="hidden px-3 py-2 mx-1 text-sm text-gray-900 bg-gray-100 bg-opacity-50 rounded-lg shadow"
