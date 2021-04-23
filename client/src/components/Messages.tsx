@@ -106,6 +106,7 @@ const GET_MESSAGES = gql`
       from
       to
       createdAt
+      uuid
     }
   }
 `
