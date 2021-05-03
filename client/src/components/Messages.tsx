@@ -28,6 +28,8 @@ const Messages = () => {
 
   useEffect(() => {
     if (messagesData) {
+      console.log({ messagesData })
+
       dispatch('SET_USER_MESSAGES', messagesData.getMessages)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,6 +109,11 @@ const GET_MESSAGES = gql`
       to
       createdAt
       uuid
+      reactions {
+        uuid
+        content
+        createdAt
+      }
     }
   }
 `
