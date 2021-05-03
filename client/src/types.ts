@@ -13,4 +13,11 @@ export interface Message {
   to: string
   content: string
   createdAt?: string
+  reactions?: Reaction[]
+}
+
+export interface Reaction {
+  uuid: string
+  content: string
+  createdAt: string
 }
