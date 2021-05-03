@@ -32,13 +32,18 @@ const MessageBox: React.FC<MessageProp> = ({ message }) => {
       })}
     >
       <div
-        className={classNames('px-3 py-2 rounded-full', {
+        className={classNames('px-3 py-2 rounded-full relative', {
           'bg-blue-500': sent,
           'bg-gray-200': received,
         })}
         onMouseEnter={addTooltip}
         onMouseLeave={removeTooltip}
       >
+        {message.reactions.length > 0 && (
+          <div className="absolute p-1 text-xs rounded -right-2.5 -bottom-6">
+            {message.reactions.map((reaction) => reaction.content)}
+          </div>
+        )}
         <p className={classNames({ 'text-white': sent })}>{message.content}</p>
       </div>
       <Reaction uuid={message.uuid} />
