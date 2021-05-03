@@ -26,6 +26,7 @@ const Home = () => {
       console.log({ data })
       dispatch('ADD_MESSAGE', data.newMessage)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, messageError, selectedUser])
 
   if (!authenticated) return <Redirect to="/login" />
