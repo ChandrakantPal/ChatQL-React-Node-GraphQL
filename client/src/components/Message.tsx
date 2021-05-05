@@ -40,7 +40,12 @@ const MessageBox: React.FC<MessageProp> = ({ message }) => {
         onMouseLeave={removeTooltip}
       >
         {message.reactions.length > 0 && (
-          <div className="absolute p-1 text-xs rounded -right-2.5 -bottom-6">
+          <div
+            className={classNames('absolute p-1 text-xs rounded -bottom-6', {
+              '-right-2.5': received,
+              '-right-25': sent,
+            })}
+          >
             {message.reactions.map((reaction) => reaction.content)}
           </div>
         )}
