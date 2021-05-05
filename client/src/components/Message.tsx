@@ -14,6 +14,9 @@ const MessageBox: React.FC<MessageProp> = ({ message }) => {
   const { user } = useAuthState()
   const sent = message.from === user.username
   const received = !sent
+  const reactionIcons = [
+    ...new Set(message.reactions.map((reaction) => reaction.content)),
+  ]
   // console.log(toolTiplRef.current)
 
   const addTooltip = () => {
@@ -46,7 +49,8 @@ const MessageBox: React.FC<MessageProp> = ({ message }) => {
               '-right-25': sent,
             })}
           >
-            {message.reactions.map((reaction) => reaction.content)}
+            {reactionIcons}
+            {message.reactions.length}
           </div>
         )}
         <p className={classNames({ 'text-white': sent })}>{message.content}</p>
