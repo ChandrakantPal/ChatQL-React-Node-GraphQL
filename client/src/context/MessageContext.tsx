@@ -21,6 +21,7 @@ const MessageStateContext = createContext<State>({
 const MessageDispatchContext = createContext(null)
 
 const messageReducer = (state: State, { type, payload }: Action) => {
+  let messageUpdate
   switch (type) {
     case 'SET_USERS':
       return {
@@ -38,8 +39,35 @@ const messageReducer = (state: State, { type, payload }: Action) => {
         selectedUser: payload,
       }
     case 'ADD_MESSAGE':
-      const messageUpdate = [...state.messages]
+      messageUpdate = [...state.messages]
       messageUpdate.unshift(payload)
+      return {
+        ...state,
+        messages: messageUpdate,
+      }
+    case 'ADD_REACTION':
+      messageUpdate = [...state.messages]
+      const messageIndex = messageUpdate?.findIndex(
+        (message) => message.uuid === payload.message.uuid
+      )
+
+      if (messageIndex > -1) {
+        let reactionsUpdate = [...messageUpdate[messageIndex]?.reactions]
+        const reactionIndex = reactionsUpdate?.findIndex(
+          (reaction) => reaction.uuid === payload.uuid
+        )
+        if (reactionIndex > -1) {
+          // Reaction exists update it
+          reactionsUpdate[reactionIndex] = payload
+        } else {
+          //New Reaction, add it
+          reactionsUpdate = [...reactionsUpdate, payload]
+        }
+        messageUpdate[messageIndex] = {
+          ...messageUpdate[messageIndex],
+          reactions: reactionsUpdate,
+        }
+      }
       return {
         ...state,
         messages: messageUpdate,
