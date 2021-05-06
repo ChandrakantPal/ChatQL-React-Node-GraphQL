@@ -40,7 +40,7 @@ const messageReducer = (state: State, { type, payload }: Action) => {
       }
     case 'ADD_MESSAGE':
       messageUpdate = [...state.messages]
-      messageUpdate.unshift(payload)
+      messageUpdate.unshift({ ...payload, reactions: [] })
       return {
         ...state,
         messages: messageUpdate,
