@@ -14,6 +14,10 @@ const Home = () => {
 
   const { data, error: messageError } = useSubscription(NEW_MESSAGE)
 
+  const { data: reactionData, error: reactionError } = useSubscription(
+    NEW_REACTION
+  )
+
   console.log({ data })
 
   useEffect(() => {
@@ -28,6 +32,19 @@ const Home = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, messageError, selectedUser])
+
+  useEffect(() => {
+    if (reactionError) console.log(reactionError)
+    if (
+      reactionData &&
+      (selectedUser === reactionData.newReaction.message.from ||
+        selectedUser === reactionData.newReaction.message.to)
+    ) {
+      console.log({ data })
+      dispatch('ADD_REACTION', reactionData.newReaction)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reactionData, reactionError, selectedUser])
 
   if (!authenticated) return <Redirect to="/login" />
   return (
@@ -53,6 +70,26 @@ const NEW_MESSAGE = gql`
       from
       to
       createdAt
+      reactions {
+        uuid
+        content
+        createdAt
+      }
+    }
+  }
+`
+
+const NEW_REACTION = gql`
+  subscription newReaction {
+    newReaction {
+      uuid
+      content
+      createdAt
+      message {
+        uuid
+        from
+        to
+      }
     }
   }
 `
