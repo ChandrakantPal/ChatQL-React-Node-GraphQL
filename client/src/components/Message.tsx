@@ -15,7 +15,7 @@ const MessageBox: React.FC<MessageProp> = ({ message }) => {
   const sent = message.from === user.username
   const received = !sent
   const reactionIcons = [
-    ...new Set(message.reactions.map((reaction) => reaction.content)),
+    ...new Set(message?.reactions?.map((reaction) => reaction.content)),
   ]
   // console.log(toolTiplRef.current)
 
@@ -42,7 +42,7 @@ const MessageBox: React.FC<MessageProp> = ({ message }) => {
         onMouseEnter={addTooltip}
         onMouseLeave={removeTooltip}
       >
-        {message.reactions.length > 0 && (
+        {message.reactions?.length > 0 && (
           <div
             className={classNames('absolute p-1 text-xs rounded -bottom-6', {
               '-right-2.5': received,
